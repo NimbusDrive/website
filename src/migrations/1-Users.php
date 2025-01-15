@@ -6,8 +6,6 @@ class Users extends \Chez14\Ilgar\MigrationPacket
 {
 	public function on_migrate()
 	{
-		error_log("hi");
-
 		$f3 = \F3::instance();
 
 		$f3->get("DB")->exec("
@@ -23,6 +21,6 @@ class Users extends \Chez14\Ilgar\MigrationPacket
 
 	public function on_failed(\Exception $e)
 	{
-		error_log("Failed to create users " . $e->getMessage());
+
 	}
 }
