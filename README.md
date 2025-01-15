@@ -10,7 +10,7 @@
 > 2. Open the repository in a command prompt window and run `composer install`
 > 3. Create a symlink from your XAMPP PHP folder to the repository's source folder (See the tip below)
 > 4. Create a `nimbus_drive` database in MySQL
-> 5. Open the repository source folder in a command prompt window and run `php index.php /ilgar/migrate`
+> 5. Open the repository **source folder** (`/src/`) in a command prompt window and run `php index.php /ilgar/migrate`
 > 6. Run XAMPP Apache and MySQL servers
 > 7. You can now access the webpage at http://localhost/php/capstone_project/
 
