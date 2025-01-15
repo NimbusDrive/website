@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "605ce077070c180ca2042841bf6272fa",
+    "content-hash": "2d5b24170729191ddfae1741e06c56d4",
     "packages": [
         {
             "name": "bcosca/fatfree",
@@ -80,6 +80,63 @@
                 }
             ],
             "time": "2024-12-31T17:11:04+00:00"
+        },
+        {
+            "name": "chez14/f3-ilgar",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chez14/f3-ilgar.git",
+                "reference": "bc9b40c105a607a23593df9aa24ac218d7e1a1d0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chez14/f3-ilgar/zipball/bc9b40c105a607a23593df9aa24ac218d7e1a1d0",
+                "reference": "bc9b40c105a607a23593df9aa24ac218d7e1a1d0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "bcosca/fatfree-core": "^3.6",
+                "phpunit/phpunit": "^5"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Chris",
+                    "email": "chris@christianto.net",
+                    "homepage": "https://christianto.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple migration tool for Fat-Free Framework",
+            "homepage": "https://github.com/chez14/f3-ilgar",
+            "keywords": [
+                "F3",
+                "bomber",
+                "database",
+                "fat-free framework",
+                "ilgar",
+                "migrate",
+                "migration",
+                "world trigger"
+            ],
+            "support": {
+                "issues": "https://github.com/chez14/f3-ilgar/issues",
+                "source": "https://github.com/chez14/f3-ilgar/tree/master"
+            },
+            "time": "2018-09-03T08:54:02+00:00"
         },
         {
             "name": "graham-campbell/result-type",
