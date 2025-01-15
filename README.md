@@ -8,6 +8,8 @@
 > 1. Clone the repository (duh)
 > 2. Open the repository in a command prompt window and run `composer install`
 > 3. Create a symlink from your XAMPP PHP folder to the repository's source folder
+> 4. Create a `nimbus_drive` database in MySQL
+> 5. Run XAMPP
 
 > [!TIP]
 > In order to create a symlink, you must be using a command prompt running as **Administrator**.
