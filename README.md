@@ -1,3 +1,7 @@
+# Technologies Used
+- [Fat-Free Framework](https://fatfreeframework.com/3.9/home)
+- [PHP dotenv](https://github.com/vlucas/phpdotenv)
+
 # Setting Things Up
 > [!IMPORTANT]
 > 1. Clone the repository (duh)
