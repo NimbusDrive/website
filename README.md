@@ -25,3 +25,8 @@
 > mklink /D "C:\xampp\htdocs\php\capstone_project" "C:\Users\(User)\Documents\GitHub\capstone_project\src"
 > ```
 > After the symlink is created, you can start up XAMPP and you will be able to access the page by navigating to http://localhost/php/capstone_project/
+
+# Contributing
+> [!IMPORTANT]
+> Whenever you pull down commits, make sure to check for dependency changes and setup instruction changes. \
+> If there is a dependency change, re-run `composer install`.
