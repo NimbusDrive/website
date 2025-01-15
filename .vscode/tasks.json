@@ -1,0 +1,11 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "PHP CS Fixer",
+			"type": "shell",
+			"command": "./vendor/bin/php-cs-fixer fix",
+			"problemMatcher": []
+		}
+	]
+}
