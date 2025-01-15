@@ -9,10 +9,8 @@
 > 3. Create a symlink from your XAMPP PHP folder to the repository's source folder
 
 > [!TIP]
-> 1. Open a command prompt window as **Administrator**
-> 2. Enter `mklink /D "(Destination)" "(Source)"`
-
-> [!TIP]
+> In order to create a symlink, you must be using a command prompt running as **Administrator**.
+>
 > Assuming XAMPP is installed in `C:\XAMPP`, your `(Destination)` will be \
 > `C:\xampp\htdocs\php\capstone_project`.
 >
