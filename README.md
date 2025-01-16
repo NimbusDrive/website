@@ -30,7 +30,8 @@
 > After the symlink is created, you can continue with the other instructions.
 
 > [!CAUTION]
-> If you drop the database or adjust migrations, you will have to edit the `migration.json` file in order for it to properly update. \
+> If you drop the database or adjust migrations, you will have to edit the `migration.json` file in order for it to properly update.
+>
 > This file is located at `vendor/chez14/f3-ilgar/data/migration.json`.
 >
 > The best way to fix everything would be to drop every table in the database and set the json file's `"version"` to `-1`, then remigrate.
