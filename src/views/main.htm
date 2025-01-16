@@ -3,6 +3,19 @@
 	<head></head>
 
 	<body>
-		<p>Hello There :)</p>
+		<check if="{{ @SESSION && @SESSION.user }}">
+			<true>
+				<p>Hello There {{ @SESSION.user.first_name }} :)</p>
+
+				<a href="./logout"><p>logout</p></a>
+			</true>
+
+			<false>
+				<p>Hello There :)</p>
+			</false>
+		</check>
+
+		<a href="./login"><p>login</p></a>
+		<a href="./signup"><p>sign up</p></a>
 	</body>
 </html>
