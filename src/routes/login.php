@@ -22,10 +22,14 @@ $f3->route(
 		$errors = [];
 
 		if (empty($email_address) || !filter_var($email_address, FILTER_VALIDATE_EMAIL))
+		{
 			$errors["email"] = "Invalid email address provided.";
+		}
 
 		if (empty($password))
+		{
 			$errors["password"] = "No password provided.";
+		}
 
 		if (!empty($errors))
 		{

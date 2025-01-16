@@ -25,19 +25,29 @@ $f3->route(
 		$errors = [];
 
 		if (empty($first_name))
+		{
 			$errors["first_name"] = "First name is required.";
+		}
 
 		if (empty($last_name))
+		{
 			$errors["last_name"] = "Last name is required.";
+		}
 
 		if (empty($email_address) || !filter_var($email_address, FILTER_VALIDATE_EMAIL))
+		{
 			$errors["email"] = "Invalid email address provided.";
+		}
 
 		if (empty($password) || empty($password_verify))
+		{
 			$errors["password"] = "No password provided.";
+		}
 
 		if (strcmp($password, $password_verify))
+		{
 			$errors["password_verify"] = "Passwords don't match.";
+		}
 
 		if (!empty($errors))
 		{
