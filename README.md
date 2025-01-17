@@ -28,6 +28,8 @@
 > mklink /D "C:\xampp\htdocs\php\capstone_project" "C:\Users\(User)\Documents\GitHub\capstone_project\src"
 > ```
 > After the symlink is created, you can continue with the other instructions.
+>
+> If you are on MacOS or Linux, the process is similar but using `ln -s (Source) (Destination)` instead of `mklink /D (Destination Source)`.
 
 > [!CAUTION]
 > If you drop the database or adjust migrations, you will have to edit the `migration.json` file in order for it to properly update.
