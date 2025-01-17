@@ -40,5 +40,6 @@
 
 # Contributing
 > [!IMPORTANT]
-> Whenever you pull down commits, make sure to check for dependency changes and setup instruction changes. \
+> Whenever you pull down commits, make sure to check for dependency changes and setup instruction changes.
+>
 > If there is a dependency change, re-run `composer install`.
