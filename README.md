@@ -11,20 +11,20 @@
 4. Create a `nimbus_drive` database in MySQL
 5. Open the repository **source folder** (`/src/`) in a command prompt window and run `php index.php /ilgar/migrate`
 6. Run XAMPP Apache and MySQL servers
-7. You can now access the webpage at http://localhost/php/nimbus_drive/
+7. You can now access the webpage at http://localhost:80
 
 > [!TIP]
 > In order to create a symlink, you must be using a command prompt running as **Administrator**.
 >
 > Assuming XAMPP is installed in `C:\XAMPP`, your `(Destination)` will be \
-> `C:\xampp\htdocs\php\nimbus_drive`.
+> `C:\xampp\htdocs`. This folder most likely will pre-exist and will need deleted.
 >
 > Your `(Source)` will be the path of the repository source folder on your machine, such as \
 > `C:\Users\(User)\Documents\GitHub\website\src`.
 >
 > Full command example:
 > ```
-> mklink /D "C:\xampp\htdocs\php\nimbus_drive" "C:\Users\(User)\Documents\GitHub\website\src"
+> mklink /D "C:\xampp\htdocs" "C:\Users\(User)\Documents\GitHub\website\src"
 > ```
 > After the symlink is created, you can continue with the other instructions.
 
@@ -34,12 +34,12 @@
 >
 > Full command example:
 > ```
-> ln -s "~/Documents/GitHub/website/src" "/Applications/XAMPP/htdocs/php/nimbus_drive"
+> ln -s "~/Documents/GitHub/website/src" "/Applications/XAMPP/htdocs"
 > ```
 
 > [!CAUTION]
 > If you drop the database or adjust migrations, you will have to edit the `migration.json` file in order for it to properly update.
 >
-> This file is located at `vendor/chez14/f3-ilgar/data/migration.json`.
+> This file is located at `/vendor/chez14/f3-ilgar/data/migration.json`.
 >
 > The best way to fix everything would be to drop every table in the database and set the json file's `"version"` to `-1`, then remigrate.

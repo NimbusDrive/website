@@ -1,4 +1,4 @@
 
-/vendor
 .php-cs-fixer.cache
 /src/tmp
+/src/vendor
