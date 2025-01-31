@@ -10,11 +10,13 @@ class Users extends \Chez14\Ilgar\MigrationPacket
 
 		$f3->get("DB")->exec("
 			CREATE TABLE IF NOT EXISTS `users` (
-				`id` int unsigned auto_increment primary key,
-				`first_name` varchar(128) not null,
-				`last_name` varchar(128) not null,
-				`email_address` varchar(255) not null unique,
-				`password` blob not null
+				`id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+				`first_name` VARCHAR(128) NOT NULL,
+				`last_name` varchar(128) NOT NULL,
+				`email_address` varchar(255) NOT NULL UNIQUE,
+				`password` BLOB NOT NULL,
+				`is_administrator` BOOLEAN DEFAULT 0,
+				`creation_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 			)
 		");
 	}

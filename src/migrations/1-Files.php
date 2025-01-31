@@ -10,12 +10,24 @@ class Files extends \Chez14\Ilgar\MigrationPacket
 
 		$f3->get("DB")->exec("
 			CREATE TABLE IF NOT EXISTS `files` (
-				`user_id` int unsigned not null,
-				`file_data` longblob not null,
+				`id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+				`user_id` INT UNSIGNED NOT NULL,
+				`hash` TEXT(255),
+				`storage_path` TEXT(256) NOT NULL,
+				`internal_path` TEXT(256) NOT NULL,
+				`status` ENUM(?, ?, ?) NOT NULL,
 
-				foreign key (`user_id`) references `users`(`id`)
+				FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+
+				ON DELETE RESTRICT ON UPDATE CASCADE
 			)
-		");
+		",
+
+		array(
+			1 => "None",
+			2 => "Uploading",
+			3 => "Deleted"
+		));
 	}
 
 	public function on_failed(\Exception $e)
