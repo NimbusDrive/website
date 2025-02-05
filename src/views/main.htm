@@ -2,11 +2,12 @@
 <html>
 	<head>
 		<title>Nimbus Drive</title>
-
+		<link rel="icon" type="image/x-icon" href="resources/logo.png" />
 		<include href="base/style.htm" />
 	</head>
 
 	<body>
+		<include href="base/header.htm" />
 		<check if="{{ @SESSION && @SESSION.user }}">
 			<true>
 				<p>Hello There {{ @SESSION.user.first_name }} :)</p>

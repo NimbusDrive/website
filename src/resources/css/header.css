@@ -1,0 +1,27 @@
+header {
+	height: 5.5em;
+	width: 100%;
+	background-color: lightseagreen;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 2%;
+}
+
+header img {
+	height: 3em;
+	width: auto;
+	object-fit: contain;
+}
+
+header ul {
+	list-style: none;
+	display: flex;
+	flex-direction: row;
+	gap: 5em;
+}
+
+header ul a {
+	color: white;
+	text-decoration: none;
+}
