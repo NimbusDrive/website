@@ -78,8 +78,7 @@ $f3->route(
 		$User->password = $password;
 		$User->save();
 
-		new Session();
-
+		$f3->clear("SESSION");
 		$f3->reroute("/login");
 	}
 );

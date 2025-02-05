@@ -32,13 +32,22 @@ $f3->route(
 			return;
 		}
 
-		// TrustMeBro
-		$FileData = $f3->get("POST.file_data");
+		$Token = $f3->get("POST.token");
+		$CSRF = $f3->get("SESSION.csrf");
 
-		$File = new File($f3->get("DB"));
-		$File->user_id = $User->id;
-		$File->file_data = $FileData;
-		$File->save();
+		if (empty($Token) || empty($CSRF) || $Token !== $CSRF)
+		{
+			$f3->reroute("/upload"); // CSRF Attack detected
+			return;
+		}
+
+		// TrustMeBro
+		// $FileData = $f3->get("POST.file_data");
+
+		// $File = new File($f3->get("DB"));
+		// $File->user_id = $User->id;
+		// $File->file_data = $FileData;
+		// $File->save();
 
 		$f3->reroute("/");
 	}
