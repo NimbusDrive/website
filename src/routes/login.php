@@ -52,7 +52,7 @@ $f3->route(
 			return;
 		}
 
-		$Session = new DB\SQL\Session($f3->get("DB"), "sessions", TRUE, NULL, "CSRF");
+		$Session = new DB\SQL\Session($f3->get("DB"), "sessions", true, null, "CSRF");
 		$f3->copy("CSRF", "SESSION.csrf");
 		$f3->set("SESSION.user", $User->cast());
 
