@@ -41,13 +41,55 @@ $f3->route(
 			return;
 		}
 
-		// TrustMeBro
-		// $FileData = $f3->get("POST.file_data");
+		$FileData = $f3->get("POST.file_data");
 
-		// $File = new File($f3->get("DB"));
-		// $File->user_id = $User->id;
-		// $File->file_data = $FileData;
-		// $File->save();
+		if (empty($FileData))
+		{
+			// TODO: Error message
+			$f3->reroute("/");
+			return;
+		}
+
+		$FileHash = hash("sha256", $FileData);
+
+		$FileName = basename($FileHash);
+		$Path = $_ENV["INTERNAL_STORAGE_DIR"] . DIRECTORY_SEPARATOR . $FileName;
+		$Directory = dirname($Path);
+
+		if (!is_dir($Directory))
+			if (!mkdir($Directory, recursive: true))
+			{
+				// TODO: Error message
+				$f3->reroute("/");
+				return;
+			}
+
+		$File = new File($f3->get("DB"));
+		$File->user_id = $User->id;
+		$File->hash = $FileHash;
+		$File->storage_path = "C:\\"; // TODO:
+		$File->internal_path = $Path;
+		$File->status = "None";
+
+		try
+		{
+			$File->save();
+
+			$Written = file_put_contents($Path, $FileData);
+
+			if ($Written === false)
+			{
+				// TODO: Error message
+				$f3->reroute("/");
+				return;
+			}
+		}
+		catch (Exception $Exception)
+		{
+			// TODO: Error message
+			error_log("!! Failed to save file !!");
+			error_log($Exception->getMessage());
+		}
 
 		$f3->reroute("/");
 	}
