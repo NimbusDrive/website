@@ -14,7 +14,7 @@ class Files extends \Chez14\Ilgar\MigrationPacket
 				`user_id` INT UNSIGNED NOT NULL,
 				`hash` TEXT(255),
 				`storage_path` TEXT(256) NOT NULL,
-				`internal_path` TEXT(256) NOT NULL,
+				`internal_path` TEXT(256) NOT NULL UNIQUE,
 				`status` ENUM(?, ?, ?) NOT NULL,
 
 				FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
