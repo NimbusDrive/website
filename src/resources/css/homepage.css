@@ -1,0 +1,25 @@
+.welcome-img-container {
+	width: 80%;
+	margin: 1% auto;
+	height: 50%;
+	overflow: hidden;
+	background: linear-gradient(rgba(80, 80, 80, 60%), rgba(80, 80, 80, 60%)), url("../images/welcome-img.jpeg");
+	background-size: cover;
+	background-position: 0% 40%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.welcome-img-container span {
+	background-color: lightseagreen;
+	padding: 1em 2em;
+	color: white;
+	font-size: x-large;
+	font-weight: 700;
+}
+
+.welcome-msg {
+	width: 80%;
+	margin: 1% auto;
+}
