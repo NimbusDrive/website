@@ -1,9 +1,10 @@
-.welcome-img-container {
+.welcome-img-container
+{
 	width: 80%;
 	margin: 1% auto;
 	height: 50%;
 	overflow: hidden;
-	background: linear-gradient(rgba(80, 80, 80, 60%), rgba(80, 80, 80, 60%)), url("../images/welcome-img.jpeg");
+	background: linear-gradient(rgba(80, 80, 80, 60%), rgba(80, 80, 80, 60%)), url("/resources/img/welcome.jpeg");
 	background-size: cover;
 	background-position: 0% 40%;
 	display: flex;
@@ -11,7 +12,8 @@
 	align-items: center;
 }
 
-.welcome-img-container span {
+.welcome-img-container span
+{
 	background-color: lightseagreen;
 	padding: 1em 2em;
 	color: white;

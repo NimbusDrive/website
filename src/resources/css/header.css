@@ -1,4 +1,5 @@
-header {
+header
+{
 	height: 5.5em;
 	width: 100%;
 	background-color: lightseagreen;
@@ -8,20 +9,23 @@ header {
 	padding: 0 2%;
 }
 
-header img {
+header img
+{
 	height: 3em;
 	width: auto;
 	object-fit: contain;
 }
 
-header ul {
+header ul
+{
 	list-style: none;
 	display: flex;
 	flex-direction: row;
 	gap: 5em;
 }
 
-header ul a {
+header ul a
+{
 	color: white;
 	text-decoration: none;
 }
