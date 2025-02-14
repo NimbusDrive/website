@@ -57,12 +57,14 @@ $f3->route(
 		$Directory = dirname($Path);
 
 		if (!is_dir($Directory))
+		{
 			if (!mkdir($Directory, recursive: true))
 			{
 				// TODO: Error message
 				$f3->reroute("/");
 				return;
 			}
+		}
 
 		$File = new File($f3->get("DB"));
 		$File->user_id = $User->id;
@@ -83,8 +85,7 @@ $f3->route(
 				$f3->reroute("/");
 				return;
 			}
-		}
-		catch (Exception $Exception)
+		} catch (Exception $Exception)
 		{
 			// TODO: Error message
 			error_log("!! Failed to save file !!");

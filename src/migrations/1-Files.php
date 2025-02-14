@@ -8,7 +8,8 @@ class Files extends \Chez14\Ilgar\MigrationPacket
 	{
 		$f3 = \F3::instance();
 
-		$f3->get("DB")->exec("
+		$f3->get("DB")->exec(
+			"
 			CREATE TABLE IF NOT EXISTS `files` (
 				`id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 				`user_id` INT UNSIGNED NOT NULL,
@@ -22,12 +23,12 @@ class Files extends \Chez14\Ilgar\MigrationPacket
 				ON DELETE RESTRICT ON UPDATE CASCADE
 			)
 		",
-
-		array(
+			array(
 			1 => "None",
 			2 => "Uploading",
 			3 => "Deleted"
-		));
+		)
+		);
 	}
 
 	public function on_failed(\Exception $e)
