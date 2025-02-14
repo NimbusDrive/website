@@ -1,4 +1,5 @@
 {
+	"css.format.braceStyle": "expand",
 	"editor.formatOnSave": false,
 	"editor.insertSpaces": false,
 	"editor.tabSize": 4,
@@ -6,5 +7,7 @@
 	"editor.useTabStops": true,
 	"files.insertFinalNewline": true,
 	"files.trimFinalNewlines": true,
-	"files.trimTrailingWhitespace": true
+	"files.trimTrailingWhitespace": true,
+	"javascript.format.placeOpenBraceOnNewLineForControlBlocks": true,
+	"javascript.format.placeOpenBraceOnNewLineForFunctions": true
 }
