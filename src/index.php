@@ -21,4 +21,6 @@ $f3->set("BASE", $_ENV["BASE_URL"]);
 $f3->set("UI", $_ENV["VIEWS_DIR"]);
 
 $f3->clear("CACHE");
+$f3->set("CACHE", true);
+
 $f3->run();
