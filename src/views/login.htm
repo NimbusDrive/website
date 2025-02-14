@@ -7,11 +7,22 @@
 	</head>
 
 	<body>
-		<form action="./login" method="POST">
-			<input type="email" name="email_address" required />
-			<input type="password" name="password" required />
+		<include href="base/header.htm" />
 
-			<input type="submit" />
+		<form action="./login" method="POST">
+			<h1>Login</h1>
+
+			<figure>
+				<label for="email_address">Email</label>
+			    <input type="email" name="email_address" placeholder="Enter your email..." required />
+			</figure>
+			
+			<figure>
+				<label for="password">Password</label>
+				<input type="password" name="password" placeholder="Enter your password..." required />
+			</figure>
+
+			<input type="submit" value="Login" />
 		</form>
 	</body>
 </html>

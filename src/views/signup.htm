@@ -7,14 +7,35 @@
 	</head>
 
 	<body>
+		<include href="base/header.htm" />
 		<form action="./signup" method="POST">
-			<input type="text" name="first_name" required />
-			<input type="text" name="last_name" required />
-			<input type="email" name="email_address" required />
-			<input type="password" name="password" required />
-			<input type="password" name="password_verify" required />
+			<h1>Signup</h1>
 
-			<input type="submit" />
+			<figure>
+				<label for="first_name">First name</label>
+				<input type="text" name="first_name" placeholder="Enter your first name..." required />
+			</figure>
+
+			<figure>
+				<label for="last_name">Last name</label>
+				<input type="text" name="last_name" placeholder="Enter your last name..." required />
+			</figure>
+
+			<figure>
+				<label for="email_address">Email</label>
+				<input type="email" name="email_address" placeholder="Enter your email address..." required />
+			</figure>
+
+			<figure>
+				<label for="password">Password</label>
+				<input type="password" name="password" placeholder="Enter your password..." required />
+			</figure>
+
+			<figure>
+				<input type="password" name="password_verify" placeholder="Confirm password..." required />
+			</figure>
+
+			<input type="submit" value="Signup" />
 		</form>
 	</body>
 </html>
