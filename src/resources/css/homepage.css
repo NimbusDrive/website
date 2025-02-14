@@ -1,27 +1,22 @@
-.welcome-img-container
+#welcome_img
 {
-	width: 80%;
-	margin: 1% auto;
-	height: 50%;
 	overflow: hidden;
+
 	background: linear-gradient(rgba(80, 80, 80, 60%), rgba(80, 80, 80, 60%)), url("/resources/img/welcome.jpeg");
 	background-size: cover;
 	background-position: 0% 40%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+
+	width: 100%;
+	flex: 1 0 165%;
 }
 
-.welcome-img-container span
+#welcome_img span
 {
-	background-color: lightseagreen;
+	background-color: var(--accent-green);
+
 	padding: 1em 2em;
+
 	color: white;
 	font-size: x-large;
 	font-weight: 700;
-}
-
-.welcome-msg {
-	width: 80%;
-	margin: 1% auto;
 }

@@ -1,31 +1,33 @@
 header
 {
+	width: 100vw;
 	height: 5.5em;
-	width: 100%;
-	background-color: lightseagreen;
+
+	background-color: var(--accent-black);
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 0 2%;
+
+	padding: 0 1.5em;
+	margin-bottom: 1.5em;
 }
 
-header img
+header #logo
 {
-	height: 3em;
 	width: auto;
+	height: 3em;
+
 	object-fit: contain;
 }
 
-header ul
+header #links
 {
-	list-style: none;
-	display: flex;
-	flex-direction: row;
 	gap: 5em;
 }
 
-header ul a
+header #links a
 {
 	color: white;
+
 	text-decoration: none;
 }
