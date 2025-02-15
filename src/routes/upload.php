@@ -9,6 +9,12 @@ $f3->route(
 	"GET /upload",
 	function ($f3)
 	{
+		if (!$f3->exists("SESSION.user"))
+		{
+			$f3->reroute("/");
+			return;
+		}
+
 		echo \Template::instance()->render("upload.htm");
 	}
 );

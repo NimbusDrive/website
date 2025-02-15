@@ -1,28 +1,41 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Login</title>
+		<title>Nimbus Drive — Login</title>
 
-		<include href="base/style.htm" />
+		<include href="ui.htm" />
+		<link rel="stylesheet" type="text/css" href="/resources/css/login.css">
 	</head>
 
 	<body>
-		<include href="base/header.htm" />
+		<include href="navbar.htm" />
 
-		<form action="./login" method="POST">
-			<h1>Login</h1>
+		<div class="ui middle aligned center aligned grid">
+			<div class="column">
+				<form class="ui inverted form" action="/login" method="POST">
+					<div class="ui inverted piled segment">
+						<div class="field">
+							<div class="ui left icon input">
+								<i class="envelope icon"></i>
+								<input type="email" name="email_address" placeholder="Email Address">
+							</div>
+						</div>
 
-			<figure>
-				<label for="email_address">Email</label>
-			    <input type="email" name="email_address" placeholder="Enter your email..." required />
-			</figure>
-			
-			<figure>
-				<label for="password">Password</label>
-				<input type="password" name="password" placeholder="Enter your password..." required />
-			</figure>
+						<div class="field">
+							<div class="ui left icon input">
+								<i class="lock icon"></i>
+								<input type="password" name="password" placeholder="Password">
+							</div>
+						</div>
 
-			<input type="submit" value="Login" />
-		</form>
+						<button class="ui button" type="submit">Login</button>
+					</div>
+				</form>
+
+				<div class="ui message">
+					Don't have an account? <a href="/signup">Sign Up</a>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>

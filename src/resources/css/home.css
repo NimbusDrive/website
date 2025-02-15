@@ -1,0 +1,24 @@
+#header
+{
+	background: radial-gradient(circle at 20% 20%, rgb(85, 38, 153), transparent 50%),
+				radial-gradient(circle at 80% 70%, rgb(31, 122, 122), transparent 55%),
+				radial-gradient(circle at 40% 80%, rgb(38, 115, 204), transparent 45%),
+				linear-gradient(135deg, black, black);
+}
+
+#header, #header .container
+{
+	min-height: 600px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+
+	text-shadow: 0 0 2em rgba(0, 0, 0, 1);
+}
+
+#header .header.huge
+{
+	font-size: 4em;
+}

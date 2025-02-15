@@ -1,0 +1,9 @@
+.grid
+{
+	height: calc(100% - 4em);
+}
+
+.column
+{
+	max-width: 450px;
+}

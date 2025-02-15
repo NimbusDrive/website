@@ -1,0 +1,25 @@
+<link rel="stylesheet" type="text/css" href="/resources/css/navbar.css">
+
+<nav class="ui fixed inverted menu">
+	<a href="/" class="header item">
+		<div class="ui horizontal list">
+			<div class="item">
+				<img class="ui image" src="/resources/img/logo.png">
+			</div>
+		</div>
+	</a>
+
+	<div class="right menu">
+		<check if="{{ @SESSION && @SESSION.user }}">
+			<true>
+				<a class="item" href="/">My Drive</a>
+				<a class="item" href="/logout">Log Out</a>
+			</true>
+
+			<false>
+				<a class="item" href="/login">Login</a>
+				<a class="item" href="/signup">Sign Up</a>
+			</false>
+		</check>
+	</div>
+</nav>
