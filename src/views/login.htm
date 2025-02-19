@@ -9,10 +9,9 @@
 
 	<body>
 		<include href="navbar.htm" />
-
 		<div class="ui middle aligned center aligned grid">
 			<div class="column">
-				<form class="ui inverted form" action="/login" method="POST">
+				<form class="ui inverted form" action="/login" method="POST" onsubmit="document.querySelector('button[type=submit]').classList.add('loading')">
 					<div class="ui inverted piled segment">
 						<div class="field">
 							<div class="ui left icon input">
