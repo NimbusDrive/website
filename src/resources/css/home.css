@@ -22,3 +22,8 @@
 {
 	font-size: 4em;
 }
+
+#header *
+{
+	color: white !important;
+}

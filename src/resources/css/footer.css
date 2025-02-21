@@ -1,6 +1,9 @@
 footer
 {
-	box-shadow: 0 0 5px 0 black !important;
+	/* box-shadow: 0 0 5px 0 black !important; */
+}
 
+footer.inverted
+{
 	border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
