@@ -12,13 +12,27 @@
 	<div class="right menu">
 		<check if="{{ @SESSION && @SESSION.user }}">
 			<true>
-				<a class="item" href="/">My Drive</a>
-				<a class="item" href="/logout">Log Out</a>
+				<a class="item" href="/">
+					<i class="cloud icon"></i>
+					My Drive
+				</a>
+
+				<a class="item" href="/logout">
+					<i class="lock icon"></i>
+					Log Out
+				</a>
 			</true>
 
 			<false>
-				<a class="item" href="/login">Login</a>
-				<a class="item" href="/signup">Sign Up</a>
+				<a class="item" href="/login">
+					<i class="lock open icon"></i>
+					Login
+				</a>
+
+				<a class="item" href="/signup">
+					<i class="user add icon"></i>
+					Sign Up
+				</a>
 			</false>
 		</check>
 	</div>
