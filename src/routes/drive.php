@@ -14,6 +14,6 @@ $f3->route(
 	"GET /drive/home",
 	function ($f3)
 	{
-		echo \Template::instance()->render("drive.htm");
+		echo \Template::instance()->render("drive/home.htm");
 	}
 );
