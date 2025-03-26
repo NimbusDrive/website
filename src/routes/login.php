@@ -56,6 +56,6 @@ $f3->route(
 		$f3->copy("CSRF", "SESSION.csrf");
 		$f3->set("SESSION.user", $User->cast());
 
-		$f3->reroute("/");
+		$f3->reroute("/drive");
 	}
 );
