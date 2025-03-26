@@ -47,17 +47,17 @@
 	</div>
 
 	<div class="ui secondary vertical menu">
-		<a class="active item">
+		<a class="{{ @DriveTab === 'Home' ? 'active' : '' }} item" href="/drive/home">
 			<i class="home icon"></i>
 			Home
 		</a>
 
-		<a class="item">
+		<a class="{{ @DriveTab === 'Main' ? 'active' : '' }} item" href="/drive/main">
 			<i class="hdd icon"></i>
 			My Drive
 		</a>
 
-		<a class="item">
+		<a class="{{ @DriveTab === 'Shared' ? 'active' : '' }} item" href="/drive/shared">
 			<i class="users icon"></i>
 			Shared Files
 		</a>
