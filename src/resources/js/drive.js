@@ -15,12 +15,22 @@ $(() =>
 			SelectedText = SelectedText.trim();
 			if (SelectedText.length < 1) return;
 
-			console.log(SelectedText);
-
 			switch (SelectedText)
 			{
-
+				case "Upload File":
+					$(".ui.modal").modal("show");
+					break;
 			}
 		}
+	});
+
+	$("#file_upload_modal .approve.button").on("click", () =>
+	{
+		console.log("yes!");
+	});
+
+	$("#file_upload_modal .deny.button").on("click", () =>
+	{
+		console.log("no!");
 	});
 });
