@@ -26,11 +26,19 @@ $(() =>
 
 	$("#file_upload_modal .approve.button").on("click", () =>
 	{
-		console.log("yes!");
-	});
+		let UploadForm = $("#file_upload_modal form");
+		if (!UploadForm || UploadForm.length < 1) return;
 
-	$("#file_upload_modal .deny.button").on("click", () =>
-	{
-		console.log("no!");
+		let Data = new FormData(UploadForm[0]);
+
+		$.ajax({
+			"url": "/drive/upload",
+			"type": "POST",
+			"data": Data,
+			"processData": false,
+			"contentType": false,
+			"success": () => { }, // TODO: ???
+			"error": () => { } // TODO: ???
+		});
 	});
 });

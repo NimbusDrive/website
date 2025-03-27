@@ -68,6 +68,8 @@
 	<div class="header">Upload File</div>
 		<div class="content">
 			<form class="ui form">
+				<input type="hidden" name="token" value="{{ @SESSION.csrf }}" />
+
 				<div class="field">
 					<label>Select File</label>
 					<input type="file" name="file">
