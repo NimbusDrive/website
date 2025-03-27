@@ -18,7 +18,7 @@ $(() =>
 			switch (SelectedText)
 			{
 				case "Upload File":
-					$(".ui.modal").modal("show");
+					$("#file_upload_modal").modal("show");
 					break;
 			}
 		}
