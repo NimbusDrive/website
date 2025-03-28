@@ -16,8 +16,7 @@ function BuildFileHTML($Tree)
 			$Result .= "<div class=\"item\"><i class=\"file icon\"></i><div class=\"content\">";
 			$Result .= "<div class=\"header\">" . htmlspecialchars($Sub["storage_path"], ENT_QUOTES, "UTF-8") . "</div>";
 			$Result .= "</div></div>";
-		}
-		else
+		} else
 		{
 			$Result .= "<div class=\"item\"><i class=\"folder icon\"></i><div class=\"content\">";
 			$Result .= "<div class=\"header\">" . htmlspecialchars($Name, ENT_QUOTES, "UTF-8") . "</div>";
@@ -43,7 +42,9 @@ function BuildFileList($Files)
 		foreach ($Parts as $Part)
 		{
 			if (!isset($Current[$Part]))
+			{
 				$Current[$Part] = [];
+			}
 
 			$Current = &$Current[$Part];
 		}
@@ -147,7 +148,7 @@ $f3->route(
 			return;
 		}
 
-		$Files = Web::instance()->receive(function($UploadedFile) use ($f3, $User)
+		$Files = Web::instance()->receive(function ($UploadedFile) use ($f3, $User)
 		{
 			// TODO: File size?
 			// TODO: Extension blacklist?
@@ -159,7 +160,9 @@ $f3->route(
 			$Path = $_ENV["INTERNAL_STORAGE_DIR"] . DIRECTORY_SEPARATOR . $FileName;
 
 			if (!move_uploaded_file($UploadedFile["tmp_name"], $Path))
+			{
 				return false;
+			}
 
 			$DBFile = new File($f3->get("DB"));
 			$DBFile->user_id = $User->id;
