@@ -66,20 +66,20 @@
 
 <div id="file_upload_modal" class="ui modal">
 	<div class="header">Upload File</div>
-		<div class="content">
-			<form class="ui form">
-				<input type="hidden" name="token" value="{{ @SESSION.csrf }}" />
 
-				<div class="field">
-					<label>Select File</label>
-					<input type="file" name="file">
-				</div>
-			</form>
-		</div>
+	<div class="content">
+		<form class="ui form">
+			<input type="hidden" name="token" value="{{ @SESSION.csrf }}" />
 
-		<div class="actions">
-			<div class="ui primary approve button">Upload</div>
-			<div class="ui deny button">Cancel</div>
-		</div>
+			<div class="field">
+				<label>Select File</label>
+				<input type="file" name="file">
+			</div>
+		</form>
+	</div>
+
+	<div class="actions">
+		<div class="ui primary approve button">Upload</div>
+		<div class="ui deny button">Cancel</div>
 	</div>
 </div>
