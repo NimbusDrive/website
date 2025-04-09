@@ -17,7 +17,19 @@
 			<include href="drive/sidebar.htm" />
 
 			<div class="ui container">
-				{{ htmlspecialchars_decode($FileDisplay) }}
+				<ul>
+					<repeat group="{{ @FileList }}" value="{{ @Item }}" key="{{ @Name }}">
+						<check if="{{ isset(@Item['Data']) }}">
+							<true>
+								<li>{{ @Name }}</li>
+							</true>
+
+							<false>
+								<li><a href="{{ '/drive/main/' . @Name }}">{{ @Name }}</a></li>
+							</false>
+						</check>
+					</repeat>
+				</ul>
 			</div>
 		</div>
 	</body>

@@ -5,54 +5,51 @@ use NimbusDrive\Models\File;
 
 $f3 = \Base::instance();
 
-function BuildFileHTML($Tree)
-{
-	$Result = "<div class=\"ui list\">";
-
-	foreach ($Tree as $Name => $Sub)
-	{
-		if ($Name == "_file")
-		{
-			$Result .= "<div class=\"item\"><i class=\"file icon\"></i><div class=\"content\">";
-			$Result .= "<div class=\"header\">" . htmlspecialchars($Sub["storage_path"], ENT_QUOTES, "UTF-8") . "</div>";
-			$Result .= "</div></div>";
-		} else
-		{
-			$Result .= "<div class=\"item\"><i class=\"folder icon\"></i><div class=\"content\">";
-			$Result .= "<div class=\"header\">" . htmlspecialchars($Name, ENT_QUOTES, "UTF-8") . "</div>";
-			$Result .= BuildFileHTML($Sub);
-			$Result .= "</div></div>";
-		}
-	}
-
-	$Result .= "</div>";
-
-	return $Result;
-}
-
-function BuildFileList($Files)
+function BuildFileList(array $Files, string $CurrentFolder = "")
 {
 	$Tree = [];
 
 	foreach ($Files as $File)
 	{
-		$Parts = explode("/", trim($File["storage_path"], "/"));
-		$Current = &$Tree;
+		$Path = trim($File["storage_path"], "/");
+		$Parts = explode("/", $Path);
+		$CurrentLevel = &$Tree;
 
-		foreach ($Parts as $Part)
+		foreach ($Parts as $Index => $Part)
 		{
-			if (!isset($Current[$Part]))
+			if ($Index === count($Parts) - 1)
 			{
-				$Current[$Part] = [];
+				$CurrentLevel[$Part] = ["Data" => $File];
+			} else
+			{
+				if (!isset($CurrentLevel[$Part]))
+				{
+					$CurrentLevel[$Part] = [];
+				}
+
+				$CurrentLevel = &$CurrentLevel[$Part];
 			}
-
-			$Current = &$Current[$Part];
 		}
-
-		$Current["_file"] = $File;
 	}
 
-	return BuildFileHTML($Tree);
+	if ($CurrentFolder !== "")
+	{
+		$RequestedFolder = explode("/", trim($CurrentFolder, "/"));
+		$CurrentLevel = &$Tree;
+		foreach ($RequestedFolder as $Folder)
+		{
+			if (isset($CurrentLevel[$Folder]))
+			{
+				$CurrentLevel = &$CurrentLevel[$Folder];
+			} else
+			{
+				return [];
+			}
+		}
+		return $CurrentLevel;
+	}
+
+	return $Tree;
 }
 
 $f3->route(
@@ -85,23 +82,32 @@ $f3->route(
 	}
 );
 
+function RouteDriveMain($f3, $Params)
+{
+	if (!$f3->exists("SESSION.user"))
+	{
+		$f3->reroute("/");
+		return;
+	}
+
+	$f3->set("DriveTab", "Main");
+
+	$Folder = isset($Params["subdir"]) ? $Params["subdir"] : "";
+
+	$Files = $f3->get("DB")->exec("select * from `files` where `user_id` = ?", $f3->get("SESSION.user.id"));
+	$f3->set("FileList", BuildFileList($Files, $Folder));
+
+	echo \Template::instance()->render("drive/main.htm");
+}
+
 $f3->route(
 	"GET /drive/main",
-	function ($f3)
-	{
-		if (!$f3->exists("SESSION.user"))
-		{
-			$f3->reroute("/");
-			return;
-		}
+	"RouteDriveMain"
+);
 
-		$f3->set("DriveTab", "Main");
-
-		$Files = $f3->get("DB")->exec("select * from `files` where `user_id` = ?", $f3->get("SESSION.user.id"));
-		$f3->set("FileDisplay", View::instance()->raw(BuildFileList($Files)));
-
-		echo \Template::instance()->render("drive/main.htm");
-	}
+$f3->route(
+	"GET /drive/main/@subdir*",
+	"RouteDriveMain"
 );
 
 $f3->route(
