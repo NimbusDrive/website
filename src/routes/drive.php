@@ -36,6 +36,7 @@ function BuildFileList(array $Files, string $CurrentFolder = "")
 	{
 		$RequestedFolder = explode("/", trim($CurrentFolder, "/"));
 		$CurrentLevel = &$Tree;
+
 		foreach ($RequestedFolder as $Folder)
 		{
 			if (isset($CurrentLevel[$Folder]))
@@ -46,6 +47,7 @@ function BuildFileList(array $Files, string $CurrentFolder = "")
 				return [];
 			}
 		}
+
 		return $CurrentLevel;
 	}
 
