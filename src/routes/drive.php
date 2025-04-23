@@ -212,7 +212,7 @@ $f3->route(
 	}
 );
 
-$f3->route("POST /drive/folder/create", function($f3)
+$f3->route("POST /drive/folder/create", function ($f3)
 {
 	if (!$f3->exists("SESSION.user"))
 	{
