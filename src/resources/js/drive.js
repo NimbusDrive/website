@@ -27,32 +27,47 @@ $(() =>
 
 				case "New Folder":
 				{
-					let FolderName = "New Folder"; // TODO:
-					let FolderPath = CurrentPath.length > 0 ? CurrentPath + "/" + FolderName : FolderName;
-
-					$.ajax({
-						"url": "/drive/folder/create",
-						"type": "POST",
-						"data": {
-							"token": $("meta[name=\"csrf\"]").attr("content"),
-							"path": FolderPath
-						},
-						"success": () => { }, // TODO: ???
-						"error": () => { } // TODO: ???
-					});
-
+					$("#folder_creation_modal").modal("show");
 					break;
 				}
 			}
 		}
 	});
 
+	$("#folder_creation_modal .approve.button").on("click", () =>
+	{
+		let Form = $("#folder_creation_modal form");
+		if (!Form || Form.length < 1) return;
+
+		let Data = new FormData(Form[0]);
+
+		let FolderName = Data.get("name");
+        if (!FolderName || FolderName.trim().length < 1) return;
+
+		Data.append("token", $("meta[name=\"csrf\"]").attr("content"));
+
+		let FolderPath = CurrentPath.length > 0 ? CurrentPath + "/" + FolderName : FolderName;
+        FolderPath = FolderPath.replace(/^\/+/, "");
+
+		Data.append("path", FolderPath);
+
+		$.ajax({
+			"url": "/drive/folder/create",
+			"type": "POST",
+			"data": Data,
+			"processData": false,
+			"contentType": false,
+			"success": () => { }, // TODO: ???
+			"error": () => { } // TODO: ???
+		});
+	});
+
 	$("#file_upload_modal .approve.button").on("click", () =>
 	{
-		let UploadForm = $("#file_upload_modal form");
-		if (!UploadForm || UploadForm.length < 1) return;
+		let Form = $("#file_upload_modal form");
+		if (!Form || Form.length < 1) return;
 
-		let Data = new FormData(UploadForm[0]);
+		let Data = new FormData(Form[0]);
 		Data.append("path", CurrentPath);
 		Data.append("token", $("meta[name=\"csrf\"]").attr("content"));
 
