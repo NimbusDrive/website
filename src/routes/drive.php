@@ -156,26 +156,38 @@ $f3->route(
 			return;
 		}
 
-		$Files = Web::instance()->receive(function ($UploadedFile) use ($f3, $User)
+		$UserDir = $_ENV["INTERNAL_STORAGE_DIR"] . DIRECTORY_SEPARATOR . $User->id;
+
+		if (!is_dir($UserDir))
+		{
+			mkdir($UserDir, 0777, true);
+		}
+
+		$Files = Web::instance()->receive(function ($UploadedFile) use ($f3, $User, $UserDir)
 		{
 			// TODO: File size?
 			// TODO: Extension blacklist?
-
 			$FileHash = hash_file("sha256", $UploadedFile["tmp_name"]);
 			$FileExt = strtolower(pathinfo($UploadedFile["name"], PATHINFO_EXTENSION));
 
 			$FileName = $FileHash . "." . $FileExt;
-			$Path = $_ENV["INTERNAL_STORAGE_DIR"] . DIRECTORY_SEPARATOR . $FileName;
+			$Path = $UserDir . DIRECTORY_SEPARATOR . $FileName;
 
 			if (!move_uploaded_file($UploadedFile["tmp_name"], $Path))
 			{
 				return false;
 			}
 
+			$SubPathRaw = $f3->get("POST.path") ?? ""; // TODO: Might have an exploit of some sorts? Path traversal? Meh who cares
+			$SubPath = trim(urldecode($SubPathRaw), "/");
+
+			$StoragePath = ($SubPath !== "" ? "/" . $SubPath : "") . "/" . basename($UploadedFile["name"]);
+			$StoragePath = preg_replace("#/+#", "/", $StoragePath);
+
 			$DBFile = new File($f3->get("DB"));
 			$DBFile->user_id = $User->id;
 			$DBFile->hash = $FileHash;
-			$DBFile->storage_path = "/" . basename($UploadedFile["name"]); // TODO:
+			$DBFile->storage_path = $StoragePath;
 			$DBFile->internal_path = $Path;
 			$DBFile->status = "None";
 
@@ -199,3 +211,73 @@ $f3->route(
 		$f3->error(200, "File upload succeeded");
 	}
 );
+
+$f3->route("POST /drive/folder/create", function($f3)
+{
+	if (!$f3->exists("SESSION.user"))
+	{
+		$f3->error(401, "Unauthorized");
+		return;
+	}
+
+	$User = new User($f3->get("DB"));
+	$User->load(array("email_address=?", $f3->get("SESSION.user.email_address")));
+
+	if ($User->dry())
+	{
+		$f3->error(401, "Unauthorized");
+		return;
+	}
+
+	$Token = $f3->get("POST.token");
+	$CSRF = $f3->get("SESSION.csrf");
+
+	if (empty($Token) || empty($CSRF) || $Token !== $CSRF)
+	{
+		$f3->reroute("/drive"); // CSRF Attack detected
+		return;
+	}
+
+	$FolderPath = trim($f3->get("POST.path"), "/");
+
+	if (empty($FolderPath))
+	{
+		$f3->error(500, "Folder creation failed");
+		return;
+	}
+
+	$DB = $f3->get("DB");
+
+	$Exists = $DB->exec(
+		"select count(*) as `count` from `files` where user_id = ? and storage_path = ?",
+		[$User->id, $FolderPath]
+	)[0]["count"];
+
+	if ($Exists > 0)
+	{
+		$f3->error(500, "Folder already exists");
+		return;
+	}
+
+	$UserDir = $_ENV["INTERNAL_STORAGE_DIR"] . DIRECTORY_SEPARATOR . $User->id;
+	$DummyPath = $UserDir . DIRECTORY_SEPARATOR . "__finit__";
+
+	if (!is_dir($UserDir))
+	{
+		mkdir($UserDir, 0777, true);
+	}
+
+	if (!file_exists($DummyPath))
+	{
+		file_put_contents($DummyPath, "");
+	}
+
+	$VirtualPath = $FolderPath . "/__finit__";
+
+	$DB->exec(
+		"insert into `files` (`user_id`, `hash`, `storage_path`, `internal_path`, `status`) values (?, ?, ?, ?, ?)",
+		[$User->id, null, $VirtualPath, $DummyPath, "None"]
+	);
+
+	$f3->error(200, "Folder creation succeeded");
+});

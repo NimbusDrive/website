@@ -1,3 +1,5 @@
+<meta name="csrf" content="{{ @SESSION.csrf }}">
+
 <div id="drivebar" class="ui compact segment">
 	<div class="ui">
 		<div class="ui dropdown segment">
@@ -69,8 +71,6 @@
 
 	<div class="content">
 		<form class="ui form">
-			<input type="hidden" name="token" value="{{ @SESSION.csrf }}" />
-
 			<div class="field">
 				<label>Select File</label>
 				<input type="file" name="file">

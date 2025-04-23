@@ -1,5 +1,7 @@
 $(() =>
 {
+	let CurrentPath = window.location.pathname.replace("/drive/main", "").replace(/^\/+/, "");
+
 	$(".ui.dropdown").dropdown({
 		"action": "select",
 		"onChange": (_, __, SelectedItems) =>
@@ -18,8 +20,29 @@ $(() =>
 			switch (SelectedText)
 			{
 				case "Upload File":
+				{
 					$("#file_upload_modal").modal("show");
 					break;
+				}
+
+				case "New Folder":
+				{
+					let FolderName = "New Folder"; // TODO:
+					let FolderPath = CurrentPath.length > 0 ? CurrentPath + "/" + FolderName : FolderName;
+
+					$.ajax({
+						"url": "/drive/folder/create",
+						"type": "POST",
+						"data": {
+							"token": $("meta[name=\"csrf\"]").attr("content"),
+							"path": FolderPath
+						},
+						"success": () => { }, // TODO: ???
+						"error": () => { } // TODO: ???
+					});
+
+					break;
+				}
 			}
 		}
 	});
@@ -30,6 +53,8 @@ $(() =>
 		if (!UploadForm || UploadForm.length < 1) return;
 
 		let Data = new FormData(UploadForm[0]);
+		Data.append("path", CurrentPath);
+		Data.append("token", $("meta[name=\"csrf\"]").attr("content"));
 
 		$.ajax({
 			"url": "/drive/upload",
