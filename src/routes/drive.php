@@ -260,12 +260,14 @@ $f3->route("POST /drive/folder/create", function ($f3)
 	}
 
 	$UserDir = $_ENV["INTERNAL_STORAGE_DIR"] . DIRECTORY_SEPARATOR . $User->id;
-	$DummyPath = $UserDir . DIRECTORY_SEPARATOR . "__finit__";
+	$FolderDir = $UserDir . DIRECTORY_SEPARATOR . str_replace("/", DIRECTORY_SEPARATOR, $FolderPath);
 
-	if (!is_dir($UserDir))
+	if (!is_dir($FolderDir))
 	{
-		mkdir($UserDir, 0777, true);
+		mkdir($FolderDir, 0777, true);
 	}
+
+	$DummyPath = $FolderDir . DIRECTORY_SEPARATOR . "__finit__";
 
 	if (!file_exists($DummyPath))
 	{
