@@ -14,26 +14,28 @@
 		<div class="pusher">
 			<include href="navbar.htm" />
 
-			<include href="drive/sidebar.htm" />
+			<div class="flex">
+				<include href="drive/sidebar.htm" />
 
-			<div class="ui container">
-				<ul>
-					<repeat group="{{ @FileList }}" value="{{ @Item }}" key="{{ @Name }}">
-						<check if="{{ isset(@Item['Data']) }}">
-							<true>
-								<check if="{{ @Item['Data']['hash'] !== NULL }}">
-									<true>
-										<li>{{ @Name }}</li>
-									</true>
-								</check>
-							</true>
+				<div class="ui container">
+					<ul>
+						<repeat group="{{ @FileList }}" value="{{ @Item }}" key="{{ @Name }}">
+							<check if="{{ isset(@Item['Data']) }}">
+								<true>
+									<check if="{{ @Item['Data']['hash'] !== NULL }}">
+										<true>
+											<li>{{ @Name }}</li>
+										</true>
+									</check>
+								</true>
 
-							<false>
-								<li><a href="{{ '/drive/main/' . @Name }}">{{ @Name }}</a></li>
-							</false>
-						</check>
-					</repeat>
-				</ul>
+								<false>
+									<li><a href="{{ '/drive/main/' . @Name }}">{{ @Name }}</a></li>
+								</false>
+							</check>
+						</repeat>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</body>
