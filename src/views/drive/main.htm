@@ -21,7 +21,11 @@
 					<repeat group="{{ @FileList }}" value="{{ @Item }}" key="{{ @Name }}">
 						<check if="{{ isset(@Item['Data']) }}">
 							<true>
-								<li>{{ @Name }}</li>
+								<check if="{{ @Item['Data']['hash'] !== NULL }}">
+									<true>
+										<li>{{ @Name }}</li>
+									</true>
+								</check>
 							</true>
 
 							<false>
