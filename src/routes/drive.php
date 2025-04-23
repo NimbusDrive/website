@@ -272,7 +272,7 @@ $f3->route("POST /drive/folder/create", function ($f3)
 		file_put_contents($DummyPath, "");
 	}
 
-	$VirtualPath = $FolderPath . "/__finit__";
+	$VirtualPath = "/" . ltrim($FolderPath . "/__finit__", "/");
 
 	$DB->exec(
 		"insert into `files` (`user_id`, `hash`, `storage_path`, `internal_path`, `status`) values (?, ?, ?, ?, ?)",
