@@ -4,6 +4,7 @@
 		<title>Nimbus Drive — My Drive</title>
 
 		<include href="ui.htm" />
+		<link rel="stylesheet" type="text/css" href="/resources/css/drivefiles.css">
 
 		<script type="text/javascript" src="/resources/js/drive.js"></script>
 	</head>
@@ -18,26 +19,42 @@
 				<include href="drive/sidebar.htm" />
 
 				<div class="ui container">
-					<ul>
+					<ul id="file_list">
 						<repeat group="{{ @FileList }}" value="{{ @Item }}" key="{{ @Name }}">
+							<check if="{{ !isset(@Item['Data']) }}">
+								<true>
+									<a href="{{ '/drive/main/' . @Name }}">
+								</true>
+							</check>
+
 							<check if="{{ isset(@Item['Data']) }}">
 								<true>
 									<check if="{{ @Item['Data']['hash'] !== NULL }}">
 										<true>
-											<li>
-												<i class="file outline icon"></i>
-												{{ @Name }}
-											</li>
+											<div class="ui segment">
+												<li>
+													<i class="file outline icon"></i>
+													{{ @Name }}
+												</li>
+											</div>
 										</true>
 									</check>
 								</true>
 
 								<false>
-									<li>
-										<i class="blue folder icon"></i>
-										<a href="{{ '/drive/main/' . @Name }}">{{ @Name }}</a>
-									</li>
+									<div class="ui segment">
+										<li>
+											<i class="blue folder icon"></i>
+											{{ @Name }}
+										</li>
+									</div>
 								</false>
+							</check>
+
+							<check if="{{ !isset(@Item['Data']) }}">
+								<true>
+									</a>
+								</true>
 							</check>
 						</repeat>
 					</ul>
