@@ -5,7 +5,29 @@ use NimbusDrive\Models\File;
 
 $f3 = \Base::instance();
 
-function BuildFileList(array $Files, string $CurrentFolder = "")
+function SortTree(array $Tree): array
+{
+	$Folders = [];
+	$Files = [];
+
+	foreach ($Tree as $key => $value)
+	{
+		if (isset($value["Data"]))
+		{
+			$Files[$key] = $value;
+		} else
+		{
+			$Folders[$key] = sortTree($value);
+		}
+	}
+
+	uksort($Folders, "strcasecmp");
+	uksort($Files, "strcasecmp");
+
+	return $Folders + $Files;
+}
+
+function BuildFileList(array $Files, string $CurrentFolder = ""): array
 {
 	$Tree = [];
 
@@ -48,10 +70,10 @@ function BuildFileList(array $Files, string $CurrentFolder = "")
 			}
 		}
 
-		return $CurrentLevel;
+		return SortTree($CurrentLevel);
 	}
 
-	return $Tree;
+	return SortTree($Tree);
 }
 
 $f3->route(
