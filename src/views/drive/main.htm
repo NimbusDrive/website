@@ -24,13 +24,19 @@
 								<true>
 									<check if="{{ @Item['Data']['hash'] !== NULL }}">
 										<true>
-											<li>{{ @Name }}</li>
+											<li>
+												<i class="file outline icon"></i>
+												{{ @Name }}
+											</li>
 										</true>
 									</check>
 								</true>
 
 								<false>
-									<li><a href="{{ '/drive/main/' . @Name }}">{{ @Name }}</a></li>
+									<li>
+										<i class="folder icon"></i>
+										<a href="{{ '/drive/main/' . @Name }}">{{ @Name }}</a>
+									</li>
 								</false>
 							</check>
 						</repeat>
