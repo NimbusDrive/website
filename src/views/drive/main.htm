@@ -34,8 +34,8 @@
 												</div>
 
 												<div class="ui container">
-													<i class="red trash icon floated clickable"onclick="SendFileDelete({{ @Item['Data']['id'] }});"></i>
-													<i class="blue pencil icon floated clickable"></i>
+													<i class="red trash icon floated clickable" onclick="SendFileDelete({{ @Item['Data']['id'] }});"></i>
+													<i class="blue pencil icon floated clickable" onclick="window.RenamingFile = {{ @Item['Data']['id'] }}; $('#file_rename_modal').modal('show');"></i>
 												</div>
 											</div>
 										</true>
@@ -64,5 +64,24 @@
 				</div>
 			</div>
 		</div>
+
+		<div id="file_rename_modal" class="ui modal">
+			<div class="header">Rename File</div>
+
+			<div class="content">
+				<form class="ui form">
+					<div class="field">
+						<label>Enter Name</label>
+						<input type="text" name="name" value="">
+					</div>
+				</form>
+			</div>
+
+			<div class="actions">
+				<div class="ui primary approve button">Rename</div>
+				<div class="ui deny button">Cancel</div>
+			</div>
+		</div>
+
 	</body>
 </html>

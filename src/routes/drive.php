@@ -369,3 +369,74 @@ $f3->route("POST /drive/delete", function ($f3)
 
 	$f3->error(200, "File deleted successfully");
 });
+
+$f3->route("POST /drive/rename", function ($f3)
+{
+	if (!$f3->exists("SESSION.user"))
+	{
+		$f3->error(401, "Unauthorized");
+		return;
+	}
+
+	$User = new User($f3->get("DB"));
+	$User->load(array("email_address=?", $f3->get("SESSION.user.email_address")));
+
+	if ($User->dry())
+	{
+		$f3->error(401, "Unauthorized");
+		return;
+	}
+
+	$Token = $f3->get("POST.token");
+	$CSRF = $f3->get("SESSION.csrf");
+
+	if (empty($Token) || empty($CSRF) || $Token !== $CSRF)
+	{
+		$f3->reroute("/drive"); // CSRF Attack detected
+		return;
+	}
+
+	$FileID = $f3->get("POST.id");
+
+	if (empty($FileID))
+	{
+		$f3->error(400, "Missing file ID");
+		return;
+	}
+
+	$File = new File($f3->get("DB"));
+	$File->load(array("id = ? AND user_id = ?", $FileID, $User->id));
+
+	if ($File->dry())
+	{
+		$f3->error(404, "File not found");
+		return;
+	}
+
+	$NewName = $f3->get("POST.name");
+
+	if (empty($NewName))
+	{
+		$f3->error(400, "Missing file Name");
+		return;
+	}
+
+	$OldStoragePath = $File->storage_path;
+	$StorageDir = dirname($OldStoragePath);
+
+	$NewStoragePath = $StorageDir . "/" . $NewName;
+	$NewStoragePath = preg_replace("#/+#", "/", $NewStoragePath);
+
+	$File->storage_path = stripcslashes($NewStoragePath);
+
+	try
+	{
+		$File->save();
+	} catch (Exception $e)
+	{
+		$f3->error(500, "Failed to update file record in database");
+		return;
+	}
+
+	$f3->error(200, "File renamed successfully");
+});
