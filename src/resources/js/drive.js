@@ -106,7 +106,7 @@ $(() =>
 
 		let Data = new FormData(Form[0]);
 		Data.append("token", $("meta[name=\"csrf\"]").attr("content"));
-		Data.append("id", window.RenamingFile);
+		Data.append("id", window.RenamingFile); // TODO: This is gross
 
 		let FileName = Data.get("name");
         if (!FileName || FileName.trim().length < 1) return;
