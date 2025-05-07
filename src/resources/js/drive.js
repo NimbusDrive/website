@@ -1,3 +1,26 @@
+function SendFileDelete(ID)
+{
+	let Data = new FormData();
+	Data.append("token", $("meta[name=\"csrf\"]").attr("content"));
+	Data.append("id", ID);
+
+	$.ajax({
+		"url": "/drive/delete",
+		"type": "POST",
+		"data": Data,
+		"processData": false,
+		"contentType": false,
+		"success": () => { }, // TODO: ???
+		"error": () => { } // TODO: ???
+	});
+
+	setTimeout(() =>
+	{
+		// Jank
+		window.location.reload();
+	}, 1);
+}
+
 $(() =>
 {
 	let CurrentPath = window.location.pathname.replace("/drive/main", "").replace(/^\/+/, "");

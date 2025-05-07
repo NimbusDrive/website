@@ -19,6 +19,8 @@
 				<include href="drive/sidebar.htm" />
 
 				<div class="ui container">
+
+
 					<ul id="file_list">
 						<repeat group="{{ @FileList }}" value="{{ @Item }}" key="{{ @Name }}">
 							<check if="{{ !isset(@Item['Data']) }}">
@@ -36,8 +38,8 @@
 													<i class="file outline icon"></i>
 													{{ @Name }}
 
-													<i class="red trash icon floated"></i>
-													<i class="blue pencil icon floated"></i>
+													<i class="red trash icon floated clickable"onclick="SendFileDelete({{ @Item['Data']['id'] }});"></i>
+													<i class="blue pencil icon floated clickable"></i>
 												</li>
 											</div>
 										</true>
@@ -50,7 +52,7 @@
 											<i class="blue folder icon"></i>
 											{{ @Name }}
 
-											<i class="red trash icon floated"></i>
+											<i class="red trash icon floated clickable"></i>
 										</li>
 									</div>
 								</false>

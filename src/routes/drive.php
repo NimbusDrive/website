@@ -305,3 +305,67 @@ $f3->route("POST /drive/folder/create", function ($f3)
 
 	$f3->error(200, "Folder creation succeeded");
 });
+
+$f3->route("POST /drive/delete", function ($f3)
+{
+	if (!$f3->exists("SESSION.user"))
+	{
+		$f3->error(401, "Unauthorized");
+		return;
+	}
+
+	$User = new User($f3->get("DB"));
+	$User->load(array("email_address=?", $f3->get("SESSION.user.email_address")));
+
+	if ($User->dry())
+	{
+		$f3->error(401, "Unauthorized");
+		return;
+	}
+
+	$Token = $f3->get("POST.token");
+	$CSRF = $f3->get("SESSION.csrf");
+
+	if (empty($Token) || empty($CSRF) || $Token !== $CSRF)
+	{
+		$f3->reroute("/drive"); // CSRF Attack detected
+		return;
+	}
+
+	$FileID = $f3->get("POST.id");
+
+	if (empty($FileID))
+	{
+		$f3->error(400, "Missing file ID");
+		return;
+	}
+
+	$File = new File($f3->get("DB"));
+	$File->load(array("id = ? AND user_id = ?", $FileID, $User->id));
+
+	if ($File->dry())
+	{
+		$f3->error(404, "File not found");
+		return;
+	}
+
+	if (!empty($File->internal_path) && file_exists($File->internal_path))
+	{
+		if (!unlink($File->internal_path))
+		{
+			$f3->error(500, "Failed to delete file from filesystem");
+			return;
+		}
+	}
+
+	try
+	{
+		$File->erase();
+	} catch (Exception $e)
+	{
+		$f3->error(500, "Failed to delete file from database");
+		return;
+	}
+
+	$f3->error(200, "File deleted successfully");
+});
