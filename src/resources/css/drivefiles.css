@@ -11,3 +11,9 @@
 {
 	margin-left: 0 !important;
 }
+
+
+#file_list .ui.segment
+{
+	margin-top: 1rem;
+}
