@@ -10,15 +10,9 @@ function SendFileDelete(ID)
 		"data": Data,
 		"processData": false,
 		"contentType": false,
-		"success": () => { }, // TODO: ???
-		"error": () => { } // TODO: ???
+		"success": () => { window.location.reload(); },
+		"error": () => { window.location.reload(); } // TODO: Show error
 	});
-
-	setTimeout(() =>
-	{
-		// Jank
-		window.location.reload();
-	}, 1);
 }
 
 $(() =>
@@ -80,8 +74,8 @@ $(() =>
 			"data": Data,
 			"processData": false,
 			"contentType": false,
-			"success": () => { }, // TODO: ???
-			"error": () => { } // TODO: ???
+			"success": () => { window.location.reload(); },
+			"error": () => { window.location.reload(); } // TODO: Show error
 		});
 	});
 
@@ -100,8 +94,8 @@ $(() =>
 			"data": Data,
 			"processData": false,
 			"contentType": false,
-			"success": () => { }, // TODO: ???
-			"error": () => { } // TODO: ???
+			"success": () => { window.location.reload(); },
+			"error": () => { window.location.reload(); } // TODO: Show error
 		});
 	});
 });
