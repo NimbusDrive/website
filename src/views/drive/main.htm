@@ -36,7 +36,7 @@
 												<div class="ui container">
 													<i class="red trash icon floated clickable" onclick="SendFileDelete({{ @Item['Data']['id'] }});"></i>
 													<i class="blue pencil icon floated clickable" onclick="window.RenamingFile = {{ @Item['Data']['id'] }}; $('#file_rename_modal').modal('show');"></i>
-													<i class="green download icon floated clickable"></i>
+													<i class="green download icon floated clickable" onclick="SendFileDownload({{ @Item['Data']['id'] }});"></i>
 												</div>
 											</div>
 										</true>

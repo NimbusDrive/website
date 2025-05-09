@@ -15,6 +15,23 @@ function SendFileDelete(ID)
 	});
 }
 
+function SendFileDownload(ID)
+{
+	// let Data = new FormData();
+
+	// $.ajax({
+	// 	"url": `/drive/download/${ID}`,
+	// 	"type": "GET",
+	// 	"data": Data,
+	// 	"processData": false,
+	// 	"contentType": false,
+	// 	"success": () => { },
+	// 	"error": () => { }
+	// });
+
+	window.location.href = `/drive/download/${ID}`;
+}
+
 $(() =>
 {
 	let CurrentPath = window.location.pathname.replace("/drive/main", "").replace(/^\/+/, "");

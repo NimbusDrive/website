@@ -3,8 +3,6 @@
 use NimbusDrive\Models\User;
 use NimbusDrive\Models\File;
 
-// I have no idea what this does but it works so that's cool
-
 $f3 = \Base::instance();
 
 function SortTree(array $Tree): array
@@ -441,4 +439,55 @@ $f3->route("POST /drive/rename", function ($f3)
 	}
 
 	$f3->error(200, "File renamed successfully");
+});
+
+$f3->route("GET /drive/download/@id", function ($f3, $Params)
+{
+	if (!$f3->exists("SESSION.user"))
+	{
+		$f3->error(401, "Unauthorized");
+		return;
+	}
+
+	$User = new User($f3->get("DB"));
+	$User->load(array("email_address=?", $f3->get("SESSION.user.email_address")));
+
+	if ($User->dry())
+	{
+		$f3->error(401, "Unauthorized");
+		return;
+	}
+
+	$FileID = $Params["id"];
+
+	if (empty($FileID))
+	{
+		$f3->error(400, "Missing file ID");
+		return;
+	}
+
+	$File = new File($f3->get("DB"));
+	$File->load(array("id = ? AND user_id = ?", $FileID, $User->id));
+
+	if ($File->dry())
+	{
+		$f3->error(404, "File not found");
+		return;
+	}
+
+	$FileName = basename($File->internal_path);
+
+	header("Content-Description: File Transfer");
+	header("Content-Type: application/octet-stream");
+	header("Content-Disposition: attachment; filename=" . $FileName);
+	header("Content-Transfer-Encoding: binary");
+	header("Expires: 0");
+	header("Cache-Control: must-revalidate");
+	header("Pragma: public");
+	header("Content-Length: " . filesize($File->internal_path));
+
+	ob_clean();
+	flush();
+
+	readfile($File->internal_path);
 });
