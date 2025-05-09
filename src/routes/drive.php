@@ -87,7 +87,8 @@ $f3->route(
 			return;
 		}
 
-		$f3->reroute("/drive/home");
+		//$f3->reroute("/drive/home");
+		$f3->reroute("/drive/main");
 	}
 );
 
@@ -101,9 +102,11 @@ $f3->route(
 			return;
 		}
 
-		$f3->set("DriveTab", "Home");
+		//$f3->set("DriveTab", "Home");
 
-		echo \Template::instance()->render("drive/home.htm");
+		//echo \Template::instance()->render("drive/home.htm");
+
+		$f3->reroute("/drive/main");
 	}
 );
 
