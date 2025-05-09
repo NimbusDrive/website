@@ -2,6 +2,7 @@
 
 use NimbusDrive\Models\User;
 use NimbusDrive\Models\File;
+use NimbusDrive\Models\SharedFile;
 
 $f3 = \Base::instance();
 
@@ -552,5 +553,17 @@ $f3->route("POST /drive/share", function ($f3)
 		return;
 	}
 
-	error_log("yay!");
+	$ShareFile = new SharedFile($f3->get("DB"));
+	$ShareFile->file_id = $File->id;
+	$ShareFile->shared_user_id = $ShareUser->id;
+
+	try
+	{
+		$ShareFile->save();
+
+		$f3->error("200", "Shared");
+	} catch (Exception $Exception)
+	{
+		$f3->error(500, "Failed to share");
+	}
 });

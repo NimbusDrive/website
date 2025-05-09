@@ -157,8 +157,8 @@ $(() =>
 			"data": Data,
 			"processData": false,
 			"contentType": false,
-			"success": () => { window.location.reload(); },
-			"error": () => { window.location.reload(); } // TODO: Show error
+			"success": () => { },
+			"error": () => { } // TODO: Show error
 		});
 	});
 });
