@@ -491,3 +491,66 @@ $f3->route("GET /drive/download/@id", function ($f3, $Params)
 
 	readfile($File->internal_path);
 });
+
+$f3->route("POST /drive/share", function ($f3)
+{
+	if (!$f3->exists("SESSION.user"))
+	{
+		$f3->error(401, "Unauthorized");
+		return;
+	}
+
+	$User = new User($f3->get("DB"));
+	$User->load(array("email_address=?", $f3->get("SESSION.user.email_address")));
+
+	if ($User->dry())
+	{
+		$f3->error(401, "Unauthorized");
+		return;
+	}
+
+	$Token = $f3->get("POST.token");
+	$CSRF = $f3->get("SESSION.csrf");
+
+	if (empty($Token) || empty($CSRF) || $Token !== $CSRF)
+	{
+		$f3->reroute("/drive"); // CSRF Attack detected
+		return;
+	}
+
+	$FileID = $f3->get("POST.id");
+
+	if (empty($FileID))
+	{
+		$f3->error(400, "Missing file ID");
+		return;
+	}
+
+	$File = new File($f3->get("DB"));
+	$File->load(array("id = ? AND user_id = ?", $FileID, $User->id));
+
+	if ($File->dry())
+	{
+		$f3->error(404, "File not found");
+		return;
+	}
+
+	$SharedEmail = $f3->get("POST.email");
+
+	if (empty($SharedEmail))
+	{
+		$f3->error(400, "Missing emaill address");
+		return;
+	}
+
+	$ShareUser = new User($f3->get("DB"));
+	$ShareUser->load(array("email_address=?", $SharedEmail));
+
+	if ($ShareUser->dry())
+	{
+		$f3->error(404, "Share user not found");
+		return;
+	}
+
+	error_log("yay!");
+});

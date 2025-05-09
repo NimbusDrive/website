@@ -138,4 +138,27 @@ $(() =>
 			"error": () => { window.location.reload(); } // TODO: Show error
 		});
 	});
+
+	$("#file_share_modal .approve.button").on("click", () =>
+	{
+		let Form = $("#file_share_modal form");
+		if (!Form || Form.length < 1) return;
+
+		let Data = new FormData(Form[0]);
+		Data.append("token", $("meta[name=\"csrf\"]").attr("content"));
+		Data.append("id", window.RenamingFile); // TODO: This is gross
+
+		let Email = Data.get("email");
+        if (!Email || Email.trim().length < 1) return;
+
+		$.ajax({
+			"url": "/drive/share",
+			"type": "POST",
+			"data": Data,
+			"processData": false,
+			"contentType": false,
+			"success": () => { window.location.reload(); },
+			"error": () => { window.location.reload(); } // TODO: Show error
+		});
+	});
 });

@@ -37,6 +37,7 @@
 													<i class="red trash icon floated clickable" onclick="SendFileDelete({{ @Item['Data']['id'] }});"></i>
 													<i class="blue pencil icon floated clickable" onclick="window.RenamingFile = {{ @Item['Data']['id'] }}; $('#file_rename_modal').modal('show');"></i>
 													<i class="green download icon floated clickable" onclick="SendFileDownload({{ @Item['Data']['id'] }});"></i>
+													<i class="blue share icon floated clickable" onclick="window.RenamingFile = {{ @Item['Data']['id'] }}; $('#file_share_modal').modal('show');"></i>
 												</div>
 											</div>
 										</true>
@@ -80,6 +81,24 @@
 
 			<div class="actions">
 				<div class="ui primary approve button">Rename</div>
+				<div class="ui deny button">Cancel</div>
+			</div>
+		</div>
+
+		<div id="file_share_modal" class="ui modal">
+			<div class="header">Share File</div>
+
+			<div class="content">
+				<form class="ui form">
+					<div class="field">
+						<label>Enter Email Address</label>
+						<input type="email" name="email" value="">
+					</div>
+				</form>
+			</div>
+
+			<div class="actions">
+				<div class="ui primary approve button">Share</div>
 				<div class="ui deny button">Cancel</div>
 			</div>
 		</div>
