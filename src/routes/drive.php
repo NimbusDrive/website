@@ -147,6 +147,11 @@ $f3->route(
 
 		$f3->set("DriveTab", "Shared");
 
+		$Folder = isset($Params["subdir"]) ? $Params["subdir"] : "";
+
+		$Files = $f3->get("DB")->exec("select `f`.* from `shared_files` `sf` inner join `files` `f` on `sf`.`file_id` = `f`.`id` where `sf`.`shared_user_id` = ?", $f3->get("SESSION.user.id"));
+		$f3->set("FileList", BuildFileList($Files, $Folder));
+
 		echo \Template::instance()->render("drive/shared.htm");
 	}
 );
@@ -472,8 +477,15 @@ $f3->route("GET /drive/download/@id", function ($f3, $Params)
 
 	if ($File->dry())
 	{
-		$f3->error(404, "File not found");
-		return;
+		$Stuff = $f3->get("DB")->exec("select `file_id` from `shared_files` where `shared_user_id` = ? AND `file_id` = ?", [ $User->id, $FileID ]);
+
+		$File->load(array("`id` = ?", [ $Stuff[0]["file_id"] ]));
+
+		if ($File->dry())
+		{
+			$f3->error(404, "File not found");
+			return;
+		}
 	}
 
 	$FileName = basename($File->internal_path);
