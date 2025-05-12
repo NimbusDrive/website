@@ -4,6 +4,7 @@
 		<title>Nimbus Drive — Shared Files</title>
 
 		<include href="ui.htm" />
+		<link rel="stylesheet" type="text/css" href="/resources/css/drivefiles.css">
 
 		<script type="text/javascript" src="/resources/js/drive.js"></script>
 	</head>
@@ -14,10 +15,48 @@
 		<div class="pusher">
 			<include href="navbar.htm" />
 
-			<include href="drive/sidebar.htm" />
+			<div class="flex">
+				<include href="drive/sidebar.htm" />
 
-			<div class="ui container">
+				<div class="ui container">
+					<ul id="file_list">
+						<repeat group="{{ @FileList }}" value="{{ @Item }}" key="{{ @Name }}">
+							<check if="{{ isset(@Item['Data']) }}">
+								<true>
+									<check if="{{ @Item['Data']['hash'] !== NULL }}">
+										<true>
+											<div class="ui segment flex">
+												<div class="ui container">
+													<li>
+														<i class="file outline icon"></i>
+														{{ @Name }}
+													</li>
+												</div>
 
+												<div class="ui container">
+													<i class="green download icon floated clickable" onclick="SendFileDownload({{ @Item['Data']['id'] }});"></i>
+												</div>
+											</div>
+										</true>
+									</check>
+								</true>
+
+								<false>
+									<div class="ui segment flex">
+										<div class="ui container">
+											<a href="{{ '/drive/main/' . @Name }}"> <!-- TODO: WRONG URL -->
+												<li>
+													<i class="blue folder icon"></i>
+													{{ @Name }}
+												</li>
+											</a>
+										</div>
+									</div>
+								</false>
+							</check>
+						</repeat>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</body>

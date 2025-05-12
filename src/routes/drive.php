@@ -2,10 +2,33 @@
 
 use NimbusDrive\Models\User;
 use NimbusDrive\Models\File;
+use NimbusDrive\Models\SharedFile;
 
 $f3 = \Base::instance();
 
-function BuildFileList(array $Files, string $CurrentFolder = "")
+function SortTree(array $Tree): array
+{
+	$Folders = [];
+	$Files = [];
+
+	foreach ($Tree as $key => $value)
+	{
+		if (isset($value["Data"]))
+		{
+			$Files[$key] = $value;
+		} else
+		{
+			$Folders[$key] = sortTree($value);
+		}
+	}
+
+	uksort($Folders, "strcasecmp");
+	uksort($Files, "strcasecmp");
+
+	return $Folders + $Files;
+}
+
+function BuildFileList(array $Files, string $CurrentFolder = ""): array
 {
 	$Tree = [];
 
@@ -48,10 +71,10 @@ function BuildFileList(array $Files, string $CurrentFolder = "")
 			}
 		}
 
-		return $CurrentLevel;
+		return SortTree($CurrentLevel);
 	}
 
-	return $Tree;
+	return SortTree($Tree);
 }
 
 $f3->route(
@@ -64,7 +87,8 @@ $f3->route(
 			return;
 		}
 
-		$f3->reroute("/drive/home");
+		//$f3->reroute("/drive/home");
+		$f3->reroute("/drive/main");
 	}
 );
 
@@ -78,9 +102,11 @@ $f3->route(
 			return;
 		}
 
-		$f3->set("DriveTab", "Home");
+		//$f3->set("DriveTab", "Home");
 
-		echo \Template::instance()->render("drive/home.htm");
+		//echo \Template::instance()->render("drive/home.htm");
+
+		$f3->reroute("/drive/main");
 	}
 );
 
@@ -123,6 +149,11 @@ $f3->route(
 		}
 
 		$f3->set("DriveTab", "Shared");
+
+		$Folder = isset($Params["subdir"]) ? $Params["subdir"] : "";
+
+		$Files = $f3->get("DB")->exec("select `f`.* from `shared_files` `sf` inner join `files` `f` on `sf`.`file_id` = `f`.`id` where `sf`.`shared_user_id` = ?", $f3->get("SESSION.user.id"));
+		$f3->set("FileList", BuildFileList($Files, $Folder));
 
 		echo \Template::instance()->render("drive/shared.htm");
 	}
@@ -282,4 +313,272 @@ $f3->route("POST /drive/folder/create", function ($f3)
 	);
 
 	$f3->error(200, "Folder creation succeeded");
+});
+
+$f3->route("POST /drive/delete", function ($f3)
+{
+	if (!$f3->exists("SESSION.user"))
+	{
+		$f3->error(401, "Unauthorized");
+		return;
+	}
+
+	$User = new User($f3->get("DB"));
+	$User->load(array("email_address=?", $f3->get("SESSION.user.email_address")));
+
+	if ($User->dry())
+	{
+		$f3->error(401, "Unauthorized");
+		return;
+	}
+
+	$Token = $f3->get("POST.token");
+	$CSRF = $f3->get("SESSION.csrf");
+
+	if (empty($Token) || empty($CSRF) || $Token !== $CSRF)
+	{
+		$f3->reroute("/drive"); // CSRF Attack detected
+		return;
+	}
+
+	$FileID = $f3->get("POST.id");
+
+	if (empty($FileID))
+	{
+		$f3->error(400, "Missing file ID");
+		return;
+	}
+
+	$File = new File($f3->get("DB"));
+	$File->load(array("id = ? AND user_id = ?", $FileID, $User->id));
+
+	if ($File->dry())
+	{
+		$f3->error(404, "File not found");
+		return;
+	}
+
+	if (!empty($File->internal_path) && file_exists($File->internal_path))
+	{
+		if (!unlink($File->internal_path))
+		{
+			$f3->error(500, "Failed to delete file from filesystem");
+			return;
+		}
+	}
+
+	try
+	{
+		$File->erase();
+	} catch (Exception $e)
+	{
+		$f3->error(500, "Failed to delete file from database");
+		return;
+	}
+
+	$f3->error(200, "File deleted successfully");
+});
+
+$f3->route("POST /drive/rename", function ($f3)
+{
+	if (!$f3->exists("SESSION.user"))
+	{
+		$f3->error(401, "Unauthorized");
+		return;
+	}
+
+	$User = new User($f3->get("DB"));
+	$User->load(array("email_address=?", $f3->get("SESSION.user.email_address")));
+
+	if ($User->dry())
+	{
+		$f3->error(401, "Unauthorized");
+		return;
+	}
+
+	$Token = $f3->get("POST.token");
+	$CSRF = $f3->get("SESSION.csrf");
+
+	if (empty($Token) || empty($CSRF) || $Token !== $CSRF)
+	{
+		$f3->reroute("/drive"); // CSRF Attack detected
+		return;
+	}
+
+	$FileID = $f3->get("POST.id");
+
+	if (empty($FileID))
+	{
+		$f3->error(400, "Missing file ID");
+		return;
+	}
+
+	$File = new File($f3->get("DB"));
+	$File->load(array("id = ? AND user_id = ?", $FileID, $User->id));
+
+	if ($File->dry())
+	{
+		$f3->error(404, "File not found");
+		return;
+	}
+
+	$NewName = $f3->get("POST.name");
+
+	if (empty($NewName))
+	{
+		$f3->error(400, "Missing file Name");
+		return;
+	}
+
+	$OldStoragePath = $File->storage_path;
+	$StorageDir = dirname($OldStoragePath);
+
+	$NewStoragePath = $StorageDir . "/" . $NewName;
+	$NewStoragePath = preg_replace("#/+#", "/", $NewStoragePath);
+
+	$File->storage_path = stripcslashes($NewStoragePath);
+
+	try
+	{
+		$File->save();
+	} catch (Exception $e)
+	{
+		$f3->error(500, "Failed to update file record in database");
+		return;
+	}
+
+	$f3->error(200, "File renamed successfully");
+});
+
+$f3->route("GET /drive/download/@id", function ($f3, $Params)
+{
+	if (!$f3->exists("SESSION.user"))
+	{
+		$f3->error(401, "Unauthorized");
+		return;
+	}
+
+	$User = new User($f3->get("DB"));
+	$User->load(array("email_address=?", $f3->get("SESSION.user.email_address")));
+
+	if ($User->dry())
+	{
+		$f3->error(401, "Unauthorized");
+		return;
+	}
+
+	$FileID = $Params["id"];
+
+	if (empty($FileID))
+	{
+		$f3->error(400, "Missing file ID");
+		return;
+	}
+
+	$File = new File($f3->get("DB"));
+	$File->load(array("id = ? AND user_id = ?", $FileID, $User->id));
+
+	if ($File->dry())
+	{
+		$Stuff = $f3->get("DB")->exec("select `file_id` from `shared_files` where `shared_user_id` = ? AND `file_id` = ?", [ $User->id, $FileID ]);
+
+		$File->load(array("`id` = ?", [ $Stuff[0]["file_id"] ]));
+
+		if ($File->dry())
+		{
+			$f3->error(404, "File not found");
+			return;
+		}
+	}
+
+	$FileName = basename($File->internal_path);
+
+	header("Content-Description: File Transfer");
+	header("Content-Type: application/octet-stream");
+	header("Content-Disposition: attachment; filename=" . $FileName);
+	header("Content-Transfer-Encoding: binary");
+	header("Expires: 0");
+	header("Cache-Control: must-revalidate");
+	header("Pragma: public");
+	header("Content-Length: " . filesize($File->internal_path));
+
+	ob_clean();
+	flush();
+
+	readfile($File->internal_path);
+});
+
+$f3->route("POST /drive/share", function ($f3)
+{
+	if (!$f3->exists("SESSION.user"))
+	{
+		$f3->error(401, "Unauthorized");
+		return;
+	}
+
+	$User = new User($f3->get("DB"));
+	$User->load(array("email_address=?", $f3->get("SESSION.user.email_address")));
+
+	if ($User->dry())
+	{
+		$f3->error(401, "Unauthorized");
+		return;
+	}
+
+	$Token = $f3->get("POST.token");
+	$CSRF = $f3->get("SESSION.csrf");
+
+	if (empty($Token) || empty($CSRF) || $Token !== $CSRF)
+	{
+		$f3->reroute("/drive"); // CSRF Attack detected
+		return;
+	}
+
+	$FileID = $f3->get("POST.id");
+
+	if (empty($FileID))
+	{
+		$f3->error(400, "Missing file ID");
+		return;
+	}
+
+	$File = new File($f3->get("DB"));
+	$File->load(array("id = ? AND user_id = ?", $FileID, $User->id));
+
+	if ($File->dry())
+	{
+		$f3->error(404, "File not found");
+		return;
+	}
+
+	$SharedEmail = $f3->get("POST.email");
+
+	if (empty($SharedEmail))
+	{
+		$f3->error(400, "Missing emaill address");
+		return;
+	}
+
+	$ShareUser = new User($f3->get("DB"));
+	$ShareUser->load(array("email_address=?", $SharedEmail));
+
+	if ($ShareUser->dry())
+	{
+		$f3->error(404, "Share user not found");
+		return;
+	}
+
+	$ShareFile = new SharedFile($f3->get("DB"));
+	$ShareFile->file_id = $File->id;
+	$ShareFile->shared_user_id = $ShareUser->id;
+
+	try
+	{
+		$ShareFile->save();
+
+		$f3->error("200", "Shared");
+	} catch (Exception $Exception)
+	{
+		$f3->error(500, "Failed to share");
+	}
 });

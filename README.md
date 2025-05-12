@@ -4,7 +4,7 @@
 >
 > If there is a dependency change, re-run `composer install`.
 
-### Setting Things Up
+## Setting Things Up
 1. Clone the repository (duh)
 2. Open the repository in a command prompt window and run `composer install`
 3. Create a symlink from your XAMPP PHP folder to the repository's source folder (See the tip below)

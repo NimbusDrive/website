@@ -1,3 +1,37 @@
+function SendFileDelete(ID)
+{
+	let Data = new FormData();
+	Data.append("token", $("meta[name=\"csrf\"]").attr("content"));
+	Data.append("id", ID);
+
+	$.ajax({
+		"url": "/drive/delete",
+		"type": "POST",
+		"data": Data,
+		"processData": false,
+		"contentType": false,
+		"success": () => { window.location.reload(); },
+		"error": () => { window.location.reload(); } // TODO: Show error
+	});
+}
+
+function SendFileDownload(ID)
+{
+	// let Data = new FormData();
+
+	// $.ajax({
+	// 	"url": `/drive/download/${ID}`,
+	// 	"type": "GET",
+	// 	"data": Data,
+	// 	"processData": false,
+	// 	"contentType": false,
+	// 	"success": () => { },
+	// 	"error": () => { }
+	// });
+
+	window.location.href = `/drive/download/${ID}`;
+}
+
 $(() =>
 {
 	let CurrentPath = window.location.pathname.replace("/drive/main", "").replace(/^\/+/, "");
@@ -57,8 +91,8 @@ $(() =>
 			"data": Data,
 			"processData": false,
 			"contentType": false,
-			"success": () => { }, // TODO: ???
-			"error": () => { } // TODO: ???
+			"success": () => { window.location.reload(); },
+			"error": () => { window.location.reload(); } // TODO: Show error
 		});
 	});
 
@@ -77,8 +111,54 @@ $(() =>
 			"data": Data,
 			"processData": false,
 			"contentType": false,
-			"success": () => { }, // TODO: ???
-			"error": () => { } // TODO: ???
+			"success": () => { window.location.reload(); },
+			"error": () => { window.location.reload(); } // TODO: Show error
+		});
+	});
+
+	$("#file_rename_modal .approve.button").on("click", () =>
+	{
+		let Form = $("#file_rename_modal form");
+		if (!Form || Form.length < 1) return;
+
+		let Data = new FormData(Form[0]);
+		Data.append("token", $("meta[name=\"csrf\"]").attr("content"));
+		Data.append("id", window.RenamingFile); // TODO: This is gross
+
+		let FileName = Data.get("name");
+        if (!FileName || FileName.trim().length < 1) return;
+
+		$.ajax({
+			"url": "/drive/rename",
+			"type": "POST",
+			"data": Data,
+			"processData": false,
+			"contentType": false,
+			"success": () => { window.location.reload(); },
+			"error": () => { window.location.reload(); } // TODO: Show error
+		});
+	});
+
+	$("#file_share_modal .approve.button").on("click", () =>
+	{
+		let Form = $("#file_share_modal form");
+		if (!Form || Form.length < 1) return;
+
+		let Data = new FormData(Form[0]);
+		Data.append("token", $("meta[name=\"csrf\"]").attr("content"));
+		Data.append("id", window.RenamingFile); // TODO: This is gross
+
+		let Email = Data.get("email");
+        if (!Email || Email.trim().length < 1) return;
+
+		$.ajax({
+			"url": "/drive/share",
+			"type": "POST",
+			"data": Data,
+			"processData": false,
+			"contentType": false,
+			"success": () => { },
+			"error": () => { } // TODO: Show error
 		});
 	});
 });

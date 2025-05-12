@@ -4,6 +4,7 @@
 		<title>Nimbus Drive — My Drive</title>
 
 		<include href="ui.htm" />
+		<link rel="stylesheet" type="text/css" href="/resources/css/drivefiles.css">
 
 		<script type="text/javascript" src="/resources/js/drive.js"></script>
 	</head>
@@ -18,24 +19,87 @@
 				<include href="drive/sidebar.htm" />
 
 				<div class="ui container">
-					<ul>
+					<ul id="file_list">
 						<repeat group="{{ @FileList }}" value="{{ @Item }}" key="{{ @Name }}">
 							<check if="{{ isset(@Item['Data']) }}">
 								<true>
 									<check if="{{ @Item['Data']['hash'] !== NULL }}">
 										<true>
-											<li>{{ @Name }}</li>
+											<div class="ui segment flex">
+												<div class="ui container">
+													<li>
+														<i class="file outline icon"></i>
+														{{ @Name }}
+													</li>
+												</div>
+
+												<div class="ui container">
+													<i class="red trash icon floated clickable" onclick="SendFileDelete({{ @Item['Data']['id'] }});"></i>
+													<i class="blue pencil icon floated clickable" onclick="window.RenamingFile = {{ @Item['Data']['id'] }}; $('#file_rename_modal').modal('show');"></i>
+													<i class="green download icon floated clickable" onclick="SendFileDownload({{ @Item['Data']['id'] }});"></i>
+													<i class="blue share icon floated clickable" onclick="window.RenamingFile = {{ @Item['Data']['id'] }}; $('#file_share_modal').modal('show');"></i>
+												</div>
+											</div>
 										</true>
 									</check>
 								</true>
 
 								<false>
-									<li><a href="{{ '/drive/main/' . @Name }}">{{ @Name }}</a></li>
+									<div class="ui segment flex">
+										<div class="ui container">
+											<a href="{{ '/drive/main/' . @Name }}">
+												<li>
+													<i class="blue folder icon"></i>
+													{{ @Name }}
+												</li>
+											</a>
+										</div>
+
+										<!-- <div class="ui container">
+											<i class="red trash icon floated clickable"></i>
+										</div> -->
+									</div>
 								</false>
 							</check>
 						</repeat>
 					</ul>
 				</div>
+			</div>
+		</div>
+
+		<div id="file_rename_modal" class="ui modal">
+			<div class="header">Rename File</div>
+
+			<div class="content">
+				<form class="ui form">
+					<div class="field">
+						<label>Enter Name</label>
+						<input type="text" name="name" value="">
+					</div>
+				</form>
+			</div>
+
+			<div class="actions">
+				<div class="ui primary approve button">Rename</div>
+				<div class="ui deny button">Cancel</div>
+			</div>
+		</div>
+
+		<div id="file_share_modal" class="ui modal">
+			<div class="header">Share File</div>
+
+			<div class="content">
+				<form class="ui form">
+					<div class="field">
+						<label>Enter Email Address</label>
+						<input type="email" name="email" value="">
+					</div>
+				</form>
+			</div>
+
+			<div class="actions">
+				<div class="ui primary approve button">Share</div>
+				<div class="ui deny button">Cancel</div>
 			</div>
 		</div>
 	</body>
