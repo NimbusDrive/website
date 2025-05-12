@@ -1,0 +1,44 @@
+body {
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+}
+
+.column {
+  max-width: 450px;
+  margin-top: 5%;
+}
+
+.ui.piled.segment {
+  background: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+}
+
+.ui.form .field .ui.input input {
+  border-radius: 6px;
+}
+
+.ui.button.submit-button {
+  background-color: #6435c9;
+  color: white;
+  font-weight: bold;
+  transition: background 0.3s ease;
+  width: 100%;
+}
+
+.ui.button.submit-button:hover {
+  background-color: #5a2ecb;
+}
+
+.ui.message {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+}
+
+.ui.message a {
+  color: #6435c9;
+  font-weight: bold;
+}
+
+.form-header {
+  color: #6435c9;
+}

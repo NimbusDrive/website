@@ -1,40 +1,47 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Nimbus Drive — Login</title>
+<head>
+  <title>Nimbus Drive — Login</title>
 
-		<include href="ui.htm" />
-		<link rel="stylesheet" type="text/css" href="/resources/css/login.css">
-	</head>
+  <include href="ui.htm" />
+  <link rel="stylesheet" type="text/css" href="/resources/css/login.css">
+  <link rel="stylesheet" type="text/css" href="/resources/css/login-fancy.css">
+</head>
 
-	<body>
-		<include href="navbar.htm" />
-		<div class="ui middle aligned center aligned grid">
-			<div class="column">
-				<form class="ui form" action="/login" method="POST" onsubmit="document.querySelector('button[type=submit]').classList.add('loading')">
-					<div class="ui piled segment">
-						<div class="field">
-							<div class="ui left icon input">
-								<i class="envelope icon"></i>
-								<input type="email" name="email_address" placeholder="Email Address">
-							</div>
-						</div>
+<body>
+  <include href="navbar.htm" />
 
-						<div class="field">
-							<div class="ui left icon input">
-								<i class="lock icon"></i>
-								<input type="password" name="password" placeholder="Password">
-							</div>
-						</div>
+  <div class="ui middle aligned center aligned grid">
+    <div class="column">
+      <form class="ui form" action="/login" method="POST" onsubmit="document.querySelector('button[type=submit]').classList.add('loading')">
+        <div class="ui piled segment">
+          <h2 class="ui center aligned header form-header">
+            <i class="lock open icon"></i>
+            Welcome Back
+          </h2>
 
-						<button class="ui button" type="submit">Login</button>
-					</div>
-				</form>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="envelope icon"></i>
+              <input type="email" name="email_address" placeholder="Email Address">
+            </div>
+          </div>
 
-				<div class="ui message">
-					Don't have an account? <a href="/signup">Sign Up</a>
-				</div>
-			</div>
-		</div>
-	</body>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input type="password" name="password" placeholder="Password">
+            </div>
+          </div>
+
+          <button class="ui button submit-button" type="submit">Login</button>
+        </div>
+      </form>
+
+      <div class="ui message">
+        Don't have an account? <a href="/signup">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</body>
 </html>
