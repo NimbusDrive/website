@@ -1,70 +1,64 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Nimbus Drive — Sign Up</title>
+	<head>
+		<title>Nimbus Drive — Sign Up</title>
 
-  <include href="ui.htm" />
-  <link rel="stylesheet" type="text/css" href="/resources/css/login.css">`
-  <link rel="stylesheet" type="text/css" href="/resources/css/signup.css">
-</head>
+		<include href="ui.htm" />
+		<link rel="stylesheet" type="text/css" href="/resources/css/login.css">
+	</head>
 
-<body>
-  <include href="navbar.htm" />
+	<body>
+		<include href="navbar.htm" />
 
-  <div class="ui middle aligned center aligned grid">
-    <div class="column">
-      <form class="ui form" action="/signup" method="POST" onsubmit="document.querySelector('button[type=submit]').classList.add('loading')">
-        <div class="ui piled segment">
-          <h2 class="ui center aligned header form-header">
-            <i class="signup icon"></i>
-            Create your Nimbus Drive account
-          </h2>
+		<div class="ui middle aligned center aligned grid">
+			<div class="column">
+				<form class="ui form" action="/signup" method="POST" onsubmit="document.querySelector('button[type=submit]').classList.add('loading')">
+					<div class="ui piled segment">
+						<div class="two fields">
+							<div class="field">
+								<div class="ui left icon input">
+									<i class="user icon"></i>
+									<input type="text" name="first_name" placeholder="First Name">
+								</div>
+							</div>
 
-          <div class="two fields">
-            <div class="field">
-              <div class="ui left icon input">
-                <i class="user icon"></i>
-                <input type="text" name="first_name" placeholder="First Name">
-              </div>
-            </div>
+							<div class="field">
+								<div class="ui left icon input">
+									<i class="user icon"></i>
+									<input type="text" name="last_name" placeholder="Last Name">
+								</div>
+							</div>
+						</div>
 
-            <div class="field">
-              <div class="ui left icon input">
-                <i class="user icon"></i>
-                <input type="text" name="last_name" placeholder="Last Name">
-              </div>
-            </div>
-          </div>
+						<div class="field">
+							<div class="ui left icon input">
+								<i class="envelope icon"></i>
+								<input type="email" name="email_address" placeholder="Email Address">
+							</div>
+						</div>
 
-          <div class="field">
-            <div class="ui left icon input">
-              <i class="envelope icon"></i>
-              <input type="email" name="email_address" placeholder="Email Address">
-            </div>
-          </div>
+						<div class="field">
+							<div class="ui left icon input">
+								<i class="lock icon"></i>
+								<input type="password" name="password" placeholder="Password">
+							</div>
+						</div>
 
-          <div class="field">
-            <div class="ui left icon input">
-              <i class="lock icon"></i>
-              <input type="password" name="password" placeholder="Password">
-            </div>
-          </div>
+						<div class="field">
+							<div class="ui left icon input">
+								<i class="lock icon"></i>
+								<input type="password" name="password_verify" placeholder="Verify Password">
+							</div>
+						</div>
 
-          <div class="field">
-            <div class="ui left icon input">
-              <i class="lock icon"></i>
-              <input type="password" name="password_verify" placeholder="Verify Password">
-            </div>
-          </div>
+						<button class="ui button" type="submit">Sign Up</button>
+					</div>
+				</form>
 
-          <button class="ui button submit-button" type="submit">Sign Up</button>
-        </div>
-      </form>
-
-      <div class="ui message">
-        Already have an account? <a href="/login">Login</a>
-      </div>
-    </div>
-  </div>
-</body>
+				<div class="ui message">
+					Already have an account? <a href="/login">Login</a>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>
